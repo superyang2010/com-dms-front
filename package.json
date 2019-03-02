@@ -1,7 +1,7 @@
 {
-	"name": "react-demo-antd-pro-admin",
+	"name": "com-dms-front",
 	"version": "0.0.1",
-	"description": "react-demo-antd-pro-admin",
+	"description": "com-dms-front",
 	"private": true,
 	"scripts": {
 		"start": "cross-env APP_TYPE=site umi dev",
