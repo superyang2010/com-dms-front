@@ -23,7 +23,7 @@ export default {
       prefix: <Icon type="lock" className={styles.prefixIcon} />,
       type: 'password',
       id: 'password',
-      placeholder: 'password',
+      placeholder: '888888',
     },
     rules: [
       {

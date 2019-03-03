@@ -4,6 +4,7 @@ import RightContent from '../GlobalHeader/RightContent';
 import BaseMenu from '../SiderMenu/BaseMenu';
 import { getFlatMenuKeys } from '../SiderMenu/SiderMenuUtils';
 import styles from './index.less';
+import { title } from '../../defaultSettings';
 
 export default class TopNavHeader extends PureComponent {
   state = {
@@ -17,7 +18,7 @@ export default class TopNavHeader extends PureComponent {
   }
 
   render() {
-    const { theme, contentWidth, menuData, logo, title } = this.props;
+    const { theme, contentWidth, menuData, logo } = this.props;
     const { maxWidth } = this.state;
     const flatMenuKeys = getFlatMenuKeys(menuData);
     return (
@@ -40,11 +41,7 @@ export default class TopNavHeader extends PureComponent {
                 maxWidth,
               }}
             >
-              <BaseMenu
-                {...this.props}
-                flatMenuKeys={flatMenuKeys}
-                style={{ border: 'none', height: 64 }}
-              />
+              <BaseMenu {...this.props} flatMenuKeys={flatMenuKeys} className={styles.menu} />
             </div>
           </div>
           <RightContent {...this.props} />

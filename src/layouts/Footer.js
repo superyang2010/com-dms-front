@@ -1,16 +1,8 @@
-import React, { Fragment } from 'react'
-import { Layout, Icon } from 'antd'
-import GlobalFooter from '@/components/GlobalFooter'
-import { getFormatDate } from '@/utils/utils'
+import React, { Fragment } from 'react';
+import { Layout, Icon } from 'antd';
+import GlobalFooter from '@/components/GlobalFooter';
 
-const { Footer } = Layout
-const curYear = getFormatDate(new Date(), 'yyyy')
-const copyright = (
-  <Fragment>
-    Copyright <Icon type="copyright" /> 1997-{curYear}xxxx（集团）有限公司版权所有
-  </Fragment>
-)
-
+const { Footer } = Layout;
 const FooterView = () => (
   <Footer style={{ padding: 0 }}>
     <GlobalFooter
@@ -34,7 +26,11 @@ const FooterView = () => (
           blankTarget: true,
         },
       ]}
-      copyright={copyright}
+      copyright={
+        <Fragment>
+          Copyright <Icon type="copyright" /> 2018 蚂蚁金服体验技术部出品
+        </Fragment>
+      }
     />
   </Footer>
 );
