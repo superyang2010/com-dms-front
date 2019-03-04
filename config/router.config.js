@@ -26,7 +26,7 @@ export default [
             path: '/sys/user',
             name: 'UserMgt',
             icon: 'user',
-            component: 'Exception/403',
+            component: 'SystemMgt/UserMgt/Index',
           },
           {
             path: '/sys/role',
@@ -286,7 +286,6 @@ export default [
               {
                 path: '/antdpro/profile/advanced',
                 name: 'advanced',
-                authority: ['admin'],
                 component: './AntdPro/Profile/AdvancedProfile',
               },
             ],

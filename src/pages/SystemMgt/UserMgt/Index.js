@@ -25,7 +25,7 @@ import {
 import StandardTable from '@/components/StandardTable';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 
-import styles from './TableList.less';
+import styles from './Index.less';
 
 const FormItem = Form.Item;
 const { Step } = Steps;
@@ -36,8 +36,8 @@ const getValue = obj =>
   Object.keys(obj)
     .map(key => obj[key])
     .join(',');
-const statusMap = ['default', 'processing', 'success', 'error'];
-const status = ['关闭', '运行中', '已上线', '异常'];
+const statusMap = ['default', 'success'];
+const status = ['无效', '有效'];
 
 const CreateForm = Form.create()(props => {
   const { modalVisible, form, handleAdd, handleModalVisible } = props;
@@ -291,21 +291,13 @@ class TableList extends PureComponent {
 
   columns = [
     {
-      title: '规则名称',
-      dataIndex: 'name',
+      title: '用户编码',
+      dataIndex: 'code',
       render: text => <a onClick={() => this.previewItem(text)}>{text}</a>,
     },
     {
-      title: '描述',
-      dataIndex: 'desc',
-    },
-    {
-      title: '服务调用次数',
-      dataIndex: 'callNo',
-      sorter: true,
-      render: val => `${val} 万`,
-      // mark to display a total number
-      needTotal: true,
+      title: '用户名称',
+      dataIndex: 'name',
     },
     {
       title: '状态',
@@ -318,23 +310,26 @@ class TableList extends PureComponent {
         {
           text: status[1],
           value: 1,
-        },
-        {
-          text: status[2],
-          value: 2,
-        },
-        {
-          text: status[3],
-          value: 3,
-        },
+        }
       ],
       render(val) {
         return <Badge status={statusMap[val]} text={status[val]} />;
       },
     },
     {
-      title: '上次调度时间',
-      dataIndex: 'updatedAt',
+      title: '角色数',
+      dataIndex: 'roleCount',
+      render: val => <a>8</a>,
+    },
+    {
+      title: '创建时间',
+      dataIndex: 'gmtCreated',
+      sorter: true,
+      render: val => <span>{moment(val).format('YYYY-MM-DD HH:mm:ss')}</span>,
+    },
+    {
+      title: '上次修改时间',
+      dataIndex: 'gmtModified',
       sorter: true,
       render: val => <span>{moment(val).format('YYYY-MM-DD HH:mm:ss')}</span>,
     },
@@ -513,21 +508,28 @@ class TableList extends PureComponent {
       <Form onSubmit={this.handleSearch} layout="inline">
         <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
           <Col md={8} sm={24}>
-            <FormItem label="规则名称">
+            <FormItem label="用户编码">
+              {getFieldDecorator('code')(<Input placeholder="请输入" />)}
+            </FormItem>
+          </Col>
+          <Col md={8} sm={24}>
+            <FormItem label="用户名称">
               {getFieldDecorator('name')(<Input placeholder="请输入" />)}
             </FormItem>
           </Col>
           <Col md={8} sm={24}>
-            <FormItem label="使用状态">
+            <FormItem label="状态">
               {getFieldDecorator('status')(
                 <Select placeholder="请选择" style={{ width: '100%' }}>
-                  <Option value="0">关闭</Option>
-                  <Option value="1">运行中</Option>
+                  <Option value="0">无效</Option>
+                  <Option value="1">有效</Option>
                 </Select>
               )}
             </FormItem>
           </Col>
-          <Col md={8} sm={24}>
+        </Row>
+        <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
+          <Col md={8} sm={24} offset={8}>
             <span className={styles.submitButtons}>
               <Button type="primary" htmlType="submit">
                 查询
@@ -553,68 +555,48 @@ class TableList extends PureComponent {
       <Form onSubmit={this.handleSearch} layout="inline">
         <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
           <Col md={8} sm={24}>
-            <FormItem label="规则名称">
+            <FormItem label="用户编码">
+              {getFieldDecorator('code')(<Input placeholder="请输入" />)}
+            </FormItem>
+          </Col>
+          <Col md={8} sm={24}>
+            <FormItem label="用户名称">
               {getFieldDecorator('name')(<Input placeholder="请输入" />)}
             </FormItem>
           </Col>
           <Col md={8} sm={24}>
-            <FormItem label="使用状态">
+            <FormItem label="状态">
               {getFieldDecorator('status')(
                 <Select placeholder="请选择" style={{ width: '100%' }}>
-                  <Option value="0">关闭</Option>
-                  <Option value="1">运行中</Option>
+                  <Option value="0">无效</Option>
+                  <Option value="1">有效</Option>
                 </Select>
               )}
-            </FormItem>
-          </Col>
-          <Col md={8} sm={24}>
-            <FormItem label="调用次数">
-              {getFieldDecorator('number')(<InputNumber style={{ width: '100%' }} />)}
             </FormItem>
           </Col>
         </Row>
         <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
           <Col md={8} sm={24}>
-            <FormItem label="更新日期">
-              {getFieldDecorator('date')(
-                <DatePicker style={{ width: '100%' }} placeholder="请输入更新日期" />
-              )}
-            </FormItem>
-          </Col>
-          <Col md={8} sm={24}>
-            <FormItem label="使用状态">
-              {getFieldDecorator('status3')(
-                <Select placeholder="请选择" style={{ width: '100%' }}>
-                  <Option value="0">关闭</Option>
-                  <Option value="1">运行中</Option>
-                </Select>
-              )}
-            </FormItem>
-          </Col>
-          <Col md={8} sm={24}>
-            <FormItem label="使用状态">
-              {getFieldDecorator('status4')(
-                <Select placeholder="请选择" style={{ width: '100%' }}>
-                  <Option value="0">关闭</Option>
-                  <Option value="1">运行中</Option>
-                </Select>
-              )}
+            <FormItem label="角色权限">
+              {getFieldDecorator('role')(<Input placeholder="请输入" />)}
             </FormItem>
           </Col>
         </Row>
-        <div style={{ overflow: 'hidden' }}>
-          <div style={{ marginBottom: 24 }}>
-            <Button type="primary" htmlType="submit">
-              查询
-            </Button>
-            <Button style={{ marginLeft: 8 }} onClick={this.handleFormReset}>
-              重置
-            </Button>
-            <a style={{ marginLeft: 8 }} onClick={this.toggleForm}>
-              收起 <Icon type="up" />
-            </a>
-          </div>
-        </div>
+        <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
+          <Col md={8} sm={24} offset={8}>
+            <span className={styles.submitButtons}>
+              <Button type="primary" htmlType="submit">
+                查询
+              </Button>
+              <Button style={{ marginLeft: 8 }} onClick={this.handleFormReset}>
+                重置
+              </Button>
+              <a style={{ marginLeft: 8 }} onClick={this.toggleForm}>
+                展开 <Icon type="down" />
+              </a>
+            </span>
+          </Col>
+        </Row>
       </Form>
     );
   }
@@ -646,7 +628,7 @@ class TableList extends PureComponent {
       handleUpdate: this.handleUpdate,
     };
     return (
-      <PageHeaderWrapper title="查询表格">
+      <PageHeaderWrapper title="用户列表">
         <Card bordered={false}>
           <div className={styles.tableList}>
             <div className={styles.tableListForm}>{this.renderForm()}</div>
