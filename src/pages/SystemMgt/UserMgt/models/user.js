@@ -1,7 +1,8 @@
 import { queryRule, removeRule, addRule, updateRule } from '@/services/api';
+import { queryUsers } from '@/services/system';
 
 export default {
-  namespace: 'rule',
+  namespace: 'userMgt',
 
   state: {
     data: {
@@ -12,10 +13,17 @@ export default {
 
   effects: {
     *fetch({ payload }, { call, put }) {
-      const response = yield call(queryRule, payload);
+      const response = yield call(queryUsers, payload);
       yield put({
         type: 'save',
-        payload: response,
+        payload: {
+          list: response.data,
+          pagination: {
+            total: response.total,
+            pageSize: response.pageSize,
+            current: parseInt(response.pageIndex + 1, 10) || 1,
+          },
+        },
       });
     },
     *add({ payload, callback }, { call, put }) {

@@ -21,11 +21,13 @@ import {
   Divider,
   Steps,
   Radio,
+  Popover
 } from 'antd';
 import StandardTable from '@/components/StandardTable';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 
 import styles from './Index.less';
+import BadgeDemo from '../../Antd/UI/Badge';
 
 const FormItem = Form.Item;
 const { Step } = Steps;
@@ -36,8 +38,7 @@ const getValue = obj =>
   Object.keys(obj)
     .map(key => obj[key])
     .join(',');
-const statusMap = ['default', 'success'];
-const status = ['无效', '有效'];
+const statusMap = {'Y': '有效', 'N': '无效'};
 
 const CreateForm = Form.create()(props => {
   const { modalVisible, form, handleAdd, handleModalVisible } = props;
@@ -48,18 +49,38 @@ const CreateForm = Form.create()(props => {
       handleAdd(fieldsValue);
     });
   };
+
   return (
     <Modal
       destroyOnClose
-      title="新建规则"
+      title="新增用户"
       visible={modalVisible}
       onOk={okHandle}
       onCancel={() => handleModalVisible()}
     >
-      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="描述">
-        {form.getFieldDecorator('desc', {
-          rules: [{ required: true, message: '请输入至少五个字符的规则描述！', min: 5 }],
-        })(<Input placeholder="请输入" />)}
+      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="编码">
+        {form.getFieldDecorator('code', {
+          rules: [{ required: true, message: '请输入至少五个字符的编码！', min: 5 }],
+        })(<Input placeholder="请输入用户编码" />)}
+      </FormItem>
+      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="用户名">
+        {form.getFieldDecorator('username', {
+          rules: [{ required: true, message: '请输入至少五个字符的名称！', min: 5 }],
+        })(<Input placeholder="请输入用户名称" />)}
+      </FormItem>
+      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="密码">
+        {form.getFieldDecorator('userpwd', {
+          rules: [
+            { required: true, message: '请输入至少六个字符的密码！', min: 6 }, 
+            ],
+        })(<Input type="password" />)}
+      </FormItem>
+      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="确认密码">
+        {form.getFieldDecorator('userpwd1', {
+          rules: [
+            { required: true, message: '请输入至少六个字符的密码！', min: 6 }, 
+            ],
+        })(<Input type="password" />)}
       </FormItem>
     </Modal>
   );
@@ -195,7 +216,7 @@ class UpdateForm extends PureComponent {
     }
     return [
       <FormItem key="name" {...this.formLayout} label="规则名称">
-        {form.getFieldDecorator('name', {
+        {form.getFieldDecorator('username', {
           rules: [{ required: true, message: '请输入规则名称！' }],
           initialValue: formVals.name,
         })(<Input placeholder="请输入" />)}
@@ -274,9 +295,9 @@ class UpdateForm extends PureComponent {
 }
 
 /* eslint react/no-multi-comp:0 */
-@connect(({ rule, loading }) => ({
-  rule,
-  loading: loading.models.rule,
+@connect(({ userMgt, loading }) => ({
+  userMgt,
+  loading: loading.models.userMgt,
 }))
 @Form.create()
 class TableList extends PureComponent {
@@ -287,6 +308,7 @@ class TableList extends PureComponent {
     selectedRows: [],
     formValues: {},
     stepFormValues: {},
+    confirmDirty: false
   };
 
   columns = [
@@ -297,29 +319,37 @@ class TableList extends PureComponent {
     },
     {
       title: '用户名称',
-      dataIndex: 'name',
+      dataIndex: 'username',
     },
     {
       title: '状态',
       dataIndex: 'status',
       filters: [
         {
-          text: status[0],
-          value: 0,
+          text: statusMap.Y,
+          value: 'Y',
         },
         {
-          text: status[1],
-          value: 1,
+          text: statusMap.N,
+          value: 'N',
         }
       ],
       render(val) {
-        return <Badge status={statusMap[val]} text={status[val]} />;
+        const badgeStatus = val === 'Y' ? 'success' : 'default';
+        return <Badge status={badgeStatus} text={statusMap[val]} />;
       },
     },
     {
       title: '角色数',
-      dataIndex: 'roleCount',
-      render: val => <a>8</a>,
+      dataIndex: 'roles',
+      render: roles => <Popover
+        style={{ width: 500 }}
+        content={this.hoverContent(roles)}
+        placement="right"
+        trigger="hover"
+      >
+        <a>{roles ? roles.length : 0}</a>
+      </Popover>
     },
     {
       title: '创建时间',
@@ -331,25 +361,37 @@ class TableList extends PureComponent {
       title: '上次修改时间',
       dataIndex: 'gmtModified',
       sorter: true,
-      render: val => <span>{moment(val).format('YYYY-MM-DD HH:mm:ss')}</span>,
+      render: val => val ? <span>{moment(val).format('YYYY-MM-DD HH:mm:ss')}</span> : '-',
     },
     {
-      title: '操作',
-      render: (text, record) => (
-        <Fragment>
-          <a onClick={() => this.handleUpdateModalVisible(true, record)}>配置</a>
-          <Divider type="vertical" />
-          <a href="">订阅警报</a>
-        </Fragment>
-      ),
+      title: '描述',
+      dataIndex: 'notes',
+      width: '200px'
     },
+    // {
+    //   title: '操作',
+    //   render: (text, record) => (
+    //     <Fragment>
+    //       <a onClick={() => this.handleUpdateModalVisible(true, record)}>配置</a>
+    //       <Divider type="vertical" />
+    //       <a href="">订阅警报</a>
+    //     </Fragment>
+    //   ),
+    // },
   ];
 
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({
-      type: 'rule/fetch',
+      type: 'userMgt/fetch'
     });
+  }
+
+  hoverContent = roles => {
+    const roleNames = roles && roles.map(role => <li key={role.code}>{role.name}</li>)
+    return <div>
+      {roleNames}
+    </div>;
   }
 
   handleStandardTableChange = (pagination, filtersArg, sorter) => {
@@ -363,17 +405,18 @@ class TableList extends PureComponent {
     }, {});
 
     const params = {
-      currentPage: pagination.current,
+      pageIndex: pagination.current - 1,
       pageSize: pagination.pageSize,
       ...formValues,
       ...filters,
     };
     if (sorter.field) {
-      params.sorter = `${sorter.field}_${sorter.order}`;
+      params.sorts = {};
+      params.sorts[sorter.field] = sorter.order === 'ascend' ? 'ASC' : 'DESC';
     }
 
     dispatch({
-      type: 'rule/fetch',
+      type: 'userMgt/fetch',
       payload: params,
     });
   };
@@ -389,7 +432,7 @@ class TableList extends PureComponent {
       formValues: {},
     });
     dispatch({
-      type: 'rule/fetch',
+      type: 'userMgt/fetch',
       payload: {},
     });
   };
@@ -409,7 +452,7 @@ class TableList extends PureComponent {
     switch (e.key) {
       case 'remove':
         dispatch({
-          type: 'rule/remove',
+          type: 'userMgt/remove',
           payload: {
             key: selectedRows.map(row => row.key),
           },
@@ -449,7 +492,7 @@ class TableList extends PureComponent {
       });
 
       dispatch({
-        type: 'rule/fetch',
+        type: 'userMgt/fetch',
         payload: values,
       });
     });
@@ -471,7 +514,7 @@ class TableList extends PureComponent {
   handleAdd = fields => {
     const { dispatch } = this.props;
     dispatch({
-      type: 'rule/add',
+      type: 'userMgt/add',
       payload: {
         desc: fields.desc,
       },
@@ -485,7 +528,7 @@ class TableList extends PureComponent {
     const { dispatch } = this.props;
     const { formValues } = this.state;
     dispatch({
-      type: 'rule/update',
+      type: 'userMgt/update',
       payload: {
         query: formValues,
         body: {
@@ -514,15 +557,15 @@ class TableList extends PureComponent {
           </Col>
           <Col md={8} sm={24}>
             <FormItem label="用户名称">
-              {getFieldDecorator('name')(<Input placeholder="请输入" />)}
+              {getFieldDecorator('username')(<Input placeholder="请输入" />)}
             </FormItem>
           </Col>
           <Col md={8} sm={24}>
             <FormItem label="状态">
               {getFieldDecorator('status')(
                 <Select placeholder="请选择" style={{ width: '100%' }}>
-                  <Option value="0">无效</Option>
-                  <Option value="1">有效</Option>
+                  <Option value="Y">有效</Option>
+                  <Option value="N">无效</Option>
                 </Select>
               )}
             </FormItem>
@@ -561,15 +604,15 @@ class TableList extends PureComponent {
           </Col>
           <Col md={8} sm={24}>
             <FormItem label="用户名称">
-              {getFieldDecorator('name')(<Input placeholder="请输入" />)}
+              {getFieldDecorator('username')(<Input placeholder="请输入" />)}
             </FormItem>
           </Col>
           <Col md={8} sm={24}>
             <FormItem label="状态">
               {getFieldDecorator('status')(
                 <Select placeholder="请选择" style={{ width: '100%' }}>
-                  <Option value="0">无效</Option>
-                  <Option value="1">有效</Option>
+                  <Option value="Y">有效</Option>
+                  <Option value="N">无效</Option>
                 </Select>
               )}
             </FormItem>
@@ -608,7 +651,7 @@ class TableList extends PureComponent {
 
   render() {
     const {
-      rule: { data },
+      userMgt: { data },
       loading,
     } = this.props;
     const { selectedRows, modalVisible, updateModalVisible, stepFormValues } = this.state;

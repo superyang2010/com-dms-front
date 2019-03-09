@@ -39,6 +39,12 @@ export default [
             name: 'MenuMgt',
             icon: 'bars',
             component: 'Exception/500',
+          },
+          {
+            path: '/sys/org',
+            name: 'OrgMgt',
+            icon: 'cluster',
+            component: 'Exception/500',
           }
         ]
       },

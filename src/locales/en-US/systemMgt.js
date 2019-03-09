@@ -3,4 +3,5 @@ export default {
   'menu.SystemMgt.UserMgt': 'User Management',
   'menu.SystemMgt.RoleMgt': 'Role Management',
   'menu.SystemMgt.MenuMgt': 'Menu Management',
+  'menu.SystemMgt.OrgMgt': 'Orgnization Management',
 };
