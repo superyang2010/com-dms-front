@@ -18,6 +18,18 @@ export default [
         redirect: '/sys/user',
       },
       {
+        path: '/exception/403',
+        component: 'Exception/403',
+      },
+      {
+        path: '/exception/404',
+        component: 'Exception/404',
+      },
+      {
+        path: '/exception/500',
+        component: 'Exception/500',
+      },
+      {
         path: '/sys',
         name: 'SystemMgt',
         icon: 'appstore',
@@ -32,13 +44,13 @@ export default [
             path: '/sys/role',
             name: 'RoleMgt',
             icon: 'team',
-            component: 'Exception/404',
+            component: 'SystemMgt/RoleMgt/Index',
           },
           {
             path: '/sys/menu',
             name: 'MenuMgt',
             icon: 'bars',
-            component: 'Exception/500',
+            component: 'SystemMgt/MenuMgt/Index',
           },
           {
             path: '/sys/org',

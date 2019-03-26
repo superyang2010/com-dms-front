@@ -217,3 +217,9 @@ export const importCDN = (url, name) =>
     document.head.appendChild(dom);
   });
 
+/**
+ * 深克隆对象
+ * @param {object} obj - 需要被克隆的对象
+ * @return 已被克隆对象
+ */
+export const deepClone = (obj) => JSON.parse(JSON.stringify(obj));

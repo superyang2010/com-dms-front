@@ -20,7 +20,7 @@ import StandardTable from '@/components/StandardTable';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 
 import styles from './Index.less';
-import UserDetailDlg from './UserDetailDlg';
+import RoleDetailDlg from './RoleDetailDlg';
 
 const FormItem = Form.Item;
 const { Option } = Select;
@@ -31,9 +31,9 @@ const getValue = obj =>
 const statusMap = {'Y': '有效', 'N': '无效'};
 
 /* eslint react/no-multi-comp:0 */
-@connect(({ userMgt, loading }) => ({
-  userMgt,
-  loading: loading.models.userMgt,
+@connect(({ roleMgt, loading }) => ({
+  roleMgt,
+  loading: loading.models.roleMgt,
 }))
 @Form.create()
 class TableList extends PureComponent {
@@ -49,15 +49,17 @@ class TableList extends PureComponent {
     {
       title: '编码',
       dataIndex: 'code',
+      width: '100px',
       render: text => <a onClick={() => this.previewItem(text)}>{text}</a>,
     },
     {
       title: '名称',
-      dataIndex: 'username',
+      dataIndex: 'name',
     },
     {
       title: '状态',
       dataIndex: 'status',
+      width: '90px',
       filters: [
         {
           text: statusMap.Y,
@@ -74,15 +76,16 @@ class TableList extends PureComponent {
       },
     },
     {
-      title: '角色数',
-      dataIndex: 'roles',
-      render: roles => <Popover
+      title: '用户数',
+      dataIndex: 'users',
+      width: '80px',
+      render: users => <Popover
         style={{ width: 500 }}
-        content={this.hoverContent(roles)}
+        content={this.hoverContent(users)}
         placement="right"
         trigger="hover"
       >
-        <a>{roles ? roles.length : 0}</a>
+        <a>{users ? users.length : 0}</a>
                        </Popover>
     },
     {
@@ -99,8 +102,7 @@ class TableList extends PureComponent {
     },
     {
       title: '描述',
-      dataIndex: 'notes',
-      width: '200px'
+      dataIndex: 'notes'
     },
     {
       title: '操作',
@@ -119,13 +121,13 @@ class TableList extends PureComponent {
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({
-      type: 'userMgt/fetch'
+      type: 'roleMgt/fetch'
     });
   }
 
-  hoverContent = roles => {
-    const roleNames = roles && roles.map(role => <li key={role.code}>{role.name}</li>)
-    return <div>{roleNames}</div>;
+  hoverContent = users => {
+    const userNames = users && users.map(user => <li key={user.code}>{user.username}</li>)
+    return <div>{userNames}</div>;
   }
 
   handleStandardTableChange = (pagination, filtersArg, sorter) => {
@@ -150,7 +152,7 @@ class TableList extends PureComponent {
     }
 
     dispatch({
-      type: 'userMgt/fetch',
+      type: 'roleMgt/fetch',
       payload: params,
     });
   };
@@ -166,7 +168,7 @@ class TableList extends PureComponent {
       formValues: {},
     });
     dispatch({
-      type: 'userMgt/fetch',
+      type: 'roleMgt/fetch',
       payload: {},
     });
   };
@@ -186,7 +188,7 @@ class TableList extends PureComponent {
     switch (e.key) {
       case 'remove':
         dispatch({
-          type: 'userMgt/remove',
+          type: 'roleMgt/remove',
           payload: {
             key: selectedRows.map(row => row.key),
           },
@@ -226,7 +228,7 @@ class TableList extends PureComponent {
       });
 
       dispatch({
-        type: 'userMgt/fetch',
+        type: 'roleMgt/fetch',
         payload: values,
       });
     });
@@ -243,7 +245,7 @@ class TableList extends PureComponent {
   handleRecordRemove = (id, enabled) => {
     const { dispatch } = this.props;
     dispatch({
-      type: 'userMgt/remove',
+      type: 'roleMgt/remove',
       payload: {id, enabled},
     });
   }
@@ -256,13 +258,13 @@ class TableList extends PureComponent {
       <Form onSubmit={this.handleSearch} layout="inline">
         <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
           <Col md={8} sm={24}>
-            <FormItem label="用户编码">
+            <FormItem label="角色编码">
               {getFieldDecorator('code')(<Input placeholder="请输入" />)}
             </FormItem>
           </Col>
           <Col md={8} sm={24}>
-            <FormItem label="用户名称">
-              {getFieldDecorator('username')(<Input placeholder="请输入" />)}
+            <FormItem label="角色名称">
+              {getFieldDecorator('name')(<Input placeholder="请输入" />)}
             </FormItem>
           </Col>
           <Col md={8} sm={24}>
@@ -303,13 +305,13 @@ class TableList extends PureComponent {
       <Form onSubmit={this.handleSearch} layout="inline">
         <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
           <Col md={8} sm={24}>
-            <FormItem label="用户编码">
+            <FormItem label="角色编码">
               {getFieldDecorator('code')(<Input placeholder="请输入" />)}
             </FormItem>
           </Col>
           <Col md={8} sm={24}>
-            <FormItem label="用户名称">
-              {getFieldDecorator('username')(<Input placeholder="请输入" />)}
+            <FormItem label="角色名称">
+              {getFieldDecorator('name')(<Input placeholder="请输入" />)}
             </FormItem>
           </Col>
           <Col md={8} sm={24}>
@@ -356,7 +358,7 @@ class TableList extends PureComponent {
 
   render() {
     const {
-      userMgt: { data },
+      roleMgt: { data },
       loading,
     } = this.props;
     const { selectedRows, modalVisible, formValues, isEdit } = this.state;
@@ -378,7 +380,7 @@ class TableList extends PureComponent {
     };
 
     return (
-      <PageHeaderWrapper title="用户列表">
+      <PageHeaderWrapper title="角色列表">
         <Card bordered={false}>
           <div className={styles.tableList}>
             <div className={styles.tableListForm}>{this.renderForm()}</div>
@@ -408,7 +410,7 @@ class TableList extends PureComponent {
             />
           </div>
         </Card>
-        <UserDetailDlg {...parentMethods} {...parentProps} />
+        <RoleDetailDlg {...parentMethods} {...parentProps} />
       </PageHeaderWrapper>
     );
   }

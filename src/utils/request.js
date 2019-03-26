@@ -21,7 +21,10 @@ const codeMessage = {
   504: '网关超时。',
 };
 
+let reqUrl = "";
+
 const checkStatus = response => {
+  reqUrl = response.url;
   if (response.status >= 200 && response.status < 300) {
     return response;
   }
@@ -34,6 +37,23 @@ const checkStatus = response => {
   error.name = response.status;
   error.response = response;
   throw error;
+};
+
+const checkData = responseData => {
+  const data = typeof responseData === "object" ? responseData : JSON.parse(responseData);
+  if (data.success === false) {
+    const errorCode = data.code;
+    const errorMsg = data.message;
+    notification.error({
+      message: `请求错误 : ${errorMsg}`,
+      description: reqUrl,
+    });
+    const error = new Error(errorMsg);
+    error.name = errorCode;
+    error.response = data;
+    throw error;
+  }
+  return responseData;
 };
 
 const cachedSave = (response, hashcode) => {
@@ -127,6 +147,7 @@ export default function request(url, option) {
       }
       return response.json();
     })
+    .then(checkData)
     .catch(e => {
       const status = e.name;
       if (status === 401) {

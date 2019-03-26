@@ -1,73 +1,72 @@
-import { queryRoles, addRole, modifyRole, deleteRole } from '@/services/system';
+import { queryMenuTree, addMenu, modifyMenu, deleteMenu, queryRoles } from '@/services/system';
 
 export default {
-  namespace: 'roleMgt',
+  namespace: 'menuMgt',
 
   state: {
-    data: {
-      list: [],
-      pagination: {},
-    },
-    users: []
+    menus: [],
+    roles: []
   },
 
   effects: {
-    *fetch({ payload }, { call, put }) {
-      const response = yield call(queryRoles, payload);
+    *queryMenuTree({ payload }, { call, put }) {
+      const response = yield call(queryMenuTree, payload);
       yield put({
         type: 'save',
         payload: {
-          data: {
-            list: response.data,
-            pagination: {
-              total: response.total,
-              pageSize: response.pageSize,
-              current: parseInt(response.pageIndex + 1, 10) || 1,
-            },
-          }
+          menus: response.data
         },
       });
     },
 
     *add({ payload, callback }, { call, put }) {
-      const response = yield call(addRole, payload);
+      const response = yield call(addMenu, payload);
       yield put({
         type: 'save',
         payload: response,
       });
       if (callback) callback();
       yield put({
-        type: 'fetch',
+        type: 'queryMenuTree',
         payload: {}
       });
     },
 
     *modify({ payload, callback }, { call, put }) {
-      const response = yield call(modifyRole, payload);
+      const response = yield call(modifyMenu, payload);
       yield put({
         type: 'save',
         payload: response,
       });
       if (callback) callback();
       yield put({
-        type: 'fetch',
+        type: 'queryMenuTree',
         payload: {}
       });
     },
 
     *remove({ payload, callback }, { call, put }) {
-      const response = yield call(deleteRole, payload);
+      const response = yield call(deleteMenu, payload);
       yield put({
         type: 'save',
         payload: response,
       });
       if (callback) callback();
       yield put({
-        type: 'fetch',
+        type: 'queryMenuTree',
         payload: {}
       });
     },
-    
+
+    *fetchRoles({ payload }, { call, put }) {
+      const response = yield call(queryRoles, payload);
+      yield put({
+        type: 'save',
+        payload: {
+          roles: response.data
+        }
+      });
+    },
   },
 
   reducers: {

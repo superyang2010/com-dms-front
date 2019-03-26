@@ -52,14 +52,21 @@ class UserDetailDlg extends PureComponent {
       if (err) return;
       // eslint-disable-next-line no-param-reassign
       fieldsValue.roleIds = fieldsValue.roles ? fieldsValue.roles.map(role => role.key) : [];
-      fieldsValue.id = formValues.id;
-      const type = isEdit ? 'userMgt/modify' : 'userMgt/add';
+      let dispatchType = 'userMgt/add';
+      if (isEdit) {
+        fieldsValue.id = formValues.id;
+        dispatchType = 'userMgt/modify';
+      }
       dispatch({
-        type,
+        type: dispatchType,
         payload: fieldsValue,
         callback: () => {
           form.resetFields();
-          message.success('添加成功');
+          if (isEdit) {
+            message.success('用户信息修改成功');
+          } else {
+            message.success('用户信息新增成功');
+          }
           handleModalVisible();
         }
       });
@@ -112,7 +119,7 @@ class UserDetailDlg extends PureComponent {
     const initRole = [];
     if (formValues.roles) {
       formValues.roles.forEach(role => {
-        initRole.push({key: role.id, label: role.name});
+        initRole.push({key: `${role.id}`, label: role.name});
       });
     }
     // 是否编辑态
