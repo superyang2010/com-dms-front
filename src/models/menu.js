@@ -3,6 +3,7 @@ import isEqual from 'lodash/isEqual';
 import { formatMessage } from 'umi/locale';
 import Authorized from '@/utils/Authorized';
 import { menu } from '../defaultSettings';
+import { queryMenuTree } from '@/services/system';
 
 const { check } = Authorized;
 
@@ -16,9 +17,9 @@ function formatter(data, parentAuthority, parentName) {
 
       let locale = 'menu';
       if (parentName) {
-        locale = `${parentName}.${item.name}`;
+        locale = `${parentName}.${item.code}`;
       } else {
-        locale = `menu.${item.name}`;
+        locale = `menu.${item.code}`;
       }
       // if enableMenuLocale use item.name,
       // close menu international
@@ -92,6 +93,25 @@ const getBreadcrumbNameMap = menuData => {
 
 const memoizeOneGetBreadcrumbNameMap = memoizeOne(getBreadcrumbNameMap, isEqual);
 
+const buildRouters = (menuDatas) => {
+  if (!menuDatas) return [];
+  const menuItem = menuDatas.filter(item => item.menuType === 'M').map(item => {
+    const {url, code, name, icon, children} = item;
+    let routes = [];
+    if (children && children.length > 0) {
+      routes = buildRouters(children);
+    }
+    return {
+      path: url,
+      code,
+      name,
+      icon,
+      routes
+    }
+  });
+  return menuItem;
+}
+
 export default {
   namespace: 'menu',
 
@@ -102,14 +122,16 @@ export default {
   },
 
   effects: {
-    *getMenuData({ payload }, { put }) {
+    *getMenuData({ payload }, { call, put }) {
       const { routes, authority } = payload;
-      const originalMenuData = memoizeOneFormatter(routes, authority);
+      const {data: menuDatas} = yield call(queryMenuTree, {});
+      const routerMap = buildRouters(menuDatas); // 这边取出实际的路由表
+      const originalMenuData = memoizeOneFormatter(routerMap, authority);
       const menuData = filterMenuData(originalMenuData);
       const breadcrumbNameMap = memoizeOneGetBreadcrumbNameMap(originalMenuData);
       yield put({
         type: 'save',
-        payload: { menuData, breadcrumbNameMap, routerData: routes },
+        payload: { menuData, breadcrumbNameMap, routerMap, routerData: routerMap },
       });
     },
   },

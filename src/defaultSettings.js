@@ -5,7 +5,7 @@ module.exports = {
   "contentWidth": "Fluid",
   "fixedHeader": true,
   "autoHideHeader": false,
-  "fixSiderbar": false,
+  "fixSiderbar": true,
   "menu": {
     "disableLocal": false
   },

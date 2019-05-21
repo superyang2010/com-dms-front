@@ -18,401 +18,401 @@ export default [
         redirect: '/sys/user',
       },
       {
-        path: '/exception/403',
-        component: 'Exception/403',
-      },
-      {
-        path: '/exception/404',
-        component: 'Exception/404',
-      },
-      {
-        path: '/exception/500',
-        component: 'Exception/500',
+        path: '/exception',
+        routes: [
+          {
+            path: '/exception/403',
+            component: 'Exception/403',
+          },
+          {
+            path: '/exception/404',
+            component: 'Exception/404',
+          },
+          {
+            path: '/exception/500',
+            component: 'Exception/500',
+          },
+        ]
       },
       {
         path: '/sys',
-        name: 'SystemMgt',
-        icon: 'appstore',
         routes: [
           {
             path: '/sys/user',
-            name: 'UserMgt',
-            icon: 'user',
             component: 'SystemMgt/UserMgt/Index',
           },
           {
             path: '/sys/role',
-            name: 'RoleMgt',
-            icon: 'team',
             component: 'SystemMgt/RoleMgt/Index',
           },
           {
             path: '/sys/menu',
-            name: 'MenuMgt',
-            icon: 'bars',
             component: 'SystemMgt/MenuMgt/Index',
           },
           {
             path: '/sys/org',
-            name: 'OrgMgt',
-            icon: 'cluster',
-            component: 'Exception/500',
+            component: 'SystemMgt/OrgMgt/Index',
           }
         ]
       },
       {
-        path: '/antd',
-        name: 'Antd',
+        path: '/demo',
         routes: [
           {
-            path: '/antd/ui',
-            name: 'UI',
-            icon: 'appstore',
+            path: '/demo/antd',
+            name: 'Antd',
             routes: [
               {
-                path: '/antd/ui/avatar',
-                name: 'avatar',
-                component: 'Antd/UI/Avatar'
+                path: '/demo/antd/ui',
+                name: 'UI',
+                icon: 'appstore',
+                routes: [
+                  {
+                    path: '/demo/antd/ui/avatar',
+                    name: 'avatar',
+                    component: 'Antd/UI/Avatar'
+                  },
+                  {
+                    path: '/demo/antd/ui/button',
+                    name: 'button',
+                    component: 'Antd/UI/Button'
+                  },
+                  {
+                    path: '/demo/antd/ui/icon',
+                    name: 'icon',
+                    component: 'Antd/UI/Icon'
+                  },
+                  {
+                    path: '/demo/antd/ui/tag',
+                    name: 'tag',
+                    component: 'Antd/UI/Tag'
+                  },
+                  {
+                    path: '/demo/antd/ui/switch',
+                    name: 'switch',
+                    component: 'Antd/UI/Switch'
+                  },
+                  {
+                    path: '/demo/antd/ui/calendar',
+                    name: 'calendar',
+                    component: 'Antd/UI/Calendar'
+                  },
+                  {
+                    path: '/demo/antd/ui/checkbox',
+                    name: 'checkbox',
+                    component: 'Antd/UI/Checkbox'
+                  },
+                  {
+                    path: '/demo/antd/ui/radio',
+                    name: 'radio',
+                    component: 'Antd/UI/Radio'
+                  },
+                  {
+                    path: '/demo/antd/ui/input',
+                    name: 'input',
+                    component: 'Antd/UI/Input'
+                  },
+                  {
+                    path: '/demo/antd/ui/timeline',
+                    name: 'timeline',
+                    component: 'Antd/UI/Timeline'
+                  },
+                  {
+                    path: '/demo/antd/ui/badge',
+                    name: 'badge',
+                    component: 'Antd/UI/Badge'
+                  },
+                  {
+                    path: '/demo/antd/ui/slider',
+                    name: 'slider',
+                    component: 'Antd/UI/Slider'
+                  },
+                ]
               },
               {
-                path: '/antd/ui/button',
-                name: 'button',
-                component: 'Antd/UI/Button'
+                path: '/demo/antd/table',
+                name: 'Table',
+                routes: [
+                  {
+                    path: '/demo/antd/table/basic',
+                    name: 'Basic',
+                    component: 'Antd/Table/BaseTable'
+                  },
+                  {
+                    path: '/demo/antd/table/advance',
+                    name: 'Advance',
+                    component: 'Antd/Table/Advanced'
+                  },
+                  {
+                    path: '/demo/antd/table/playground',
+                    name: 'Playground',
+                    component: 'Antd/Table/Playground'
+                  },{
+                    path: '/demo/antd/table/cust', 
+                    name: 'CusTable',
+                    component: 'Antd/Table/CusTable'
+                  }
+                ]
               },
               {
-                path: '/antd/ui/icon',
-                name: 'icon',
-                component: 'Antd/UI/Icon'
-              },
-              {
-                path: '/antd/ui/tag',
-                name: 'tag',
-                component: 'Antd/UI/Tag'
-              },
-              {
-                path: '/antd/ui/switch',
-                name: 'switch',
-                component: 'Antd/UI/Switch'
-              },
-              {
-                path: '/antd/ui/calendar',
-                name: 'calendar',
-                component: 'Antd/UI/Calendar'
-              },
-              {
-                path: '/antd/ui/checkbox',
-                name: 'checkbox',
-                component: 'Antd/UI/Checkbox'
-              },
-              {
-                path: '/antd/ui/radio',
-                name: 'radio',
-                component: 'Antd/UI/Radio'
-              },
-              {
-                path: '/antd/ui/input',
-                name: 'input',
-                component: 'Antd/UI/Input'
-              },
-              {
-                path: '/antd/ui/timeline',
-                name: 'timeline',
-                component: 'Antd/UI/Timeline'
-              },
-              {
-                path: '/antd/ui/badge',
-                name: 'badge',
-                component: 'Antd/UI/Badge'
-              },
-              {
-                path: '/antd/ui/slider',
-                name: 'slider',
-                component: 'Antd/UI/Slider'
-              },
-            ]
-          },
-          {
-            path: '/antd/table',
-            name: 'Table',
-            routes: [
-              {
-                path: '/antd/table/basic',
-                name: 'Basic',
-                component: 'Antd/Table/BaseTable'
-              },
-              {
-                path: '/antd/table/advance',
-                name: 'Advance',
-                component: 'Antd/Table/Advanced'
-              },
-              {
-                path: '/antd/table/playground',
-                name: 'Playground',
-                component: 'Antd/Table/Playground'
-              },{
-                path: '/antd/table/cust', 
-                name: 'CusTable',
-                component: 'Antd/Table/CusTable'
+                path: '/demo/antd/about',
+                name: 'About',
+                component: 'Antd/About/About'
               }
             ]
           },
           {
-            path: '/antd/about',
-            name: 'About',
-            component: 'Antd/About/About'
+            path: '/demo/antdpro',
+            name: 'AntdPro',
+            routes: [
+              {
+                path: '/demo/antdpro/dashboard',
+                name: 'dashboard',
+                icon: 'dashboard',
+                routes: [
+                  {
+                    path: '/demo/antdpro/dashboard/analysis',
+                    name: 'analysis',
+                    component: './antdpro/Dashboard/Analysis',
+                  },
+                  {
+                    path: '/demo/antdpro/dashboard/monitor',
+                    name: 'monitor',
+                    component: './antdpro/Dashboard/Monitor',
+                  },
+                  {
+                    path: '/demo/antdpro/dashboard/workplace',
+                    name: 'workplace',
+                    component: './antdpro/Dashboard/Workplace',
+                  },
+                ],
+              },
+              // forms
+              {
+                path: '/demo/antdpro/form',
+                icon: 'form',
+                name: 'form',
+                routes: [
+                  {
+                    path: '/demo/antdpro/form/basic-form',
+                    name: 'basicform',
+                    component: './antdpro/Forms/BasicForm',
+                  },
+                  {
+                    path: '/demo/antdpro/form/step-form',
+                    name: 'stepform',
+                    component: './antdpro/Forms/StepForm',
+                    hideChildrenInMenu: true,
+                    routes: [
+                      {
+                        path: '/demo/antdpro/form/step-form',
+                        redirect: '/demo/antdpro/form/step-form/info',
+                      },
+                      {
+                        path: '/demo/antdpro/form/step-form/info',
+                        name: 'info',
+                        component: './antdpro/Forms/StepForm/Step1',
+                      },
+                      {
+                        path: '/demo/antdpro/form/step-form/confirm',
+                        name: 'confirm',
+                        component: './antdpro/Forms/StepForm/Step2',
+                      },
+                      {
+                        path: '/demo/antdpro/form/step-form/result',
+                        name: 'result',
+                        component: './antdpro/Forms/StepForm/Step3',
+                      },
+                    ],
+                  },
+                  {
+                    path: '/demo/antdpro/form/advanced-form',
+                    name: 'advancedform',
+                    authority: ['admin'],
+                    component: './antdpro/Forms/AdvancedForm',
+                  },
+                ],
+              },
+              // list
+              {
+                path: '/demo/antdpro/list',
+                icon: 'table',
+                name: 'list',
+                routes: [
+                  {
+                    path: '/demo/antdpro/list/table-list',
+                    name: 'searchtable',
+                    component: './antdpro/List/TableList',
+                  },
+                  {
+                    path: '/demo/antdpro/list/basic-list',
+                    name: 'basiclist',
+                    component: './antdpro/List/BasicList',
+                  },
+                  {
+                    path: '/demo/antdpro/list/card-list',
+                    name: 'cardlist',
+                    component: './antdpro/List/CardList',
+                  },
+                  {
+                    path: '/demo/antdpro/list/search',
+                    name: 'searchlist',
+                    component: './antdpro/List/List',
+                    routes: [
+                      {
+                        path: '/demo/antdpro/list/search',
+                        redirect: '/demo/antdpro/list/search/articles',
+                      },
+                      {
+                        path: '/demo/antdpro/list/search/articles',
+                        name: 'articles',
+                        component: './antdpro/List/Articles',
+                      },
+                      {
+                        path: '/demo/antdpro/list/search/projects',
+                        name: 'projects',
+                        component: './antdpro/List/Projects',
+                      },
+                      {
+                        path: '/demo/antdpro/list/search/applications',
+                        name: 'applications',
+                        component: './antdpro/List/Applications',
+                      },
+                    ],
+                  },
+                ],
+              },
+              {
+                path: '/demo/antdpro/profile',
+                name: 'profile',
+                icon: 'profile',
+                routes: [
+                  // profile
+                  {
+                    path: '/demo/antdpro/profile/basic',
+                    name: 'basic',
+                    component: './antdpro/Profile/BasicProfile',
+                  },
+                  {
+                    path: '/demo/antdpro/profile/basic/:id',
+                    name: 'basic',
+                    hideInMenu: true,
+                    component: './antdpro/Profile/BasicProfile',
+                  },
+                  {
+                    path: '/demo/antdpro/profile/advanced',
+                    name: 'advanced',
+                    component: './antdpro/Profile/AdvancedProfile',
+                  },
+                ],
+              },
+              {
+                name: 'result',
+                icon: 'check-circle-o',
+                path: '/demo/antdpro/result',
+                routes: [
+                  // result
+                  {
+                    path: '/demo/antdpro/result/success',
+                    name: 'success',
+                    component: './antdpro/Result/Success',
+                  },
+                  { path: '/demo/antdpro/result/fail', name: 'fail', component: './antdpro/Result/Error' },
+                ],
+              },
+              {
+                name: 'exception',
+                icon: 'warning',
+                path: '/demo/antdpro/exception',
+                routes: [
+                  // exception
+                  {
+                    path: '/demo/antdpro/exception/403',
+                    name: 'not-permission',
+                    component: './antdpro/Exception/403',
+                  },
+                  {
+                    path: '/demo/antdpro/exception/404',
+                    name: 'not-find',
+                    component: './antdpro/Exception/404',
+                  },
+                  {
+                    path: '/demo/antdpro/exception/500',
+                    name: 'server-error',
+                    component: './antdpro/Exception/500',
+                  },
+                  {
+                    path: '/demo/antdpro/exception/trigger',
+                    name: 'trigger',
+                    hideInMenu: true,
+                    component: './antdpro/Exception/TriggerException',
+                  },
+                ],
+              },
+              {
+                name: 'account',
+                icon: 'user',
+                path: '/demo/antdpro/account',
+                routes: [
+                  {
+                    path: '/demo/antdpro/account/center',
+                    name: 'center',
+                    component: './antdpro/Account/Center/Center',
+                    routes: [
+                      {
+                        path: '/demo/antdpro/account/center',
+                        redirect: '/demo/antdpro/account/center/articles',
+                      },
+                      {
+                        path: '/demo/antdpro/account/center/articles',
+                        component: './antdpro/Account/Center/Articles',
+                      },
+                      {
+                        path: '/demo/antdpro/account/center/applications',
+                        component: './antdpro/Account/Center/Applications',
+                      },
+                      {
+                        path: '/demo/antdpro/account/center/projects',
+                        component: './antdpro/Account/Center/Projects',
+                      },
+                    ],
+                  },
+                  {
+                    path: '/demo/antdpro/account/settings',
+                    name: 'settings',
+                    component: './antdpro/Account/Settings/Info',
+                    routes: [
+                      {
+                        path: '/demo/antdpro/account/settings',
+                        redirect: '/demo/antdpro/account/settings/base',
+                      },
+                      {
+                        path: '/demo/antdpro/account/settings/base',
+                        component: './antdpro/Account/Settings/BaseView',
+                      },
+                      {
+                        path: '/demo/antdpro/account/settings/security',
+                        component: './antdpro/Account/Settings/SecurityView',
+                      },
+                      {
+                        path: '/demo/antdpro/account/settings/binding',
+                        component: './antdpro/Account/Settings/BindingView',
+                      },
+                      {
+                        path: '/demo/antdpro/account/settings/notification',
+                        component: './antdpro/Account/Settings/NotificationView',
+                      },
+                    ],
+                  },
+                ],
+              },
+              {
+                component: '404',
+              },
+            ]
           }
         ]
-      },
-      {
-        path: '/antdpro',
-        name: 'Antd PRO',
-        routes: [
-          {
-            path: '/antdpro/dashboard',
-            name: 'dashboard',
-            icon: 'dashboard',
-            routes: [
-              {
-                path: '/antdpro/dashboard/analysis',
-                name: 'analysis',
-                component: './AntdPro/Dashboard/Analysis',
-              },
-              {
-                path: '/antdpro/dashboard/monitor',
-                name: 'monitor',
-                component: './AntdPro/Dashboard/Monitor',
-              },
-              {
-                path: '/antdpro/dashboard/workplace',
-                name: 'workplace',
-                component: './AntdPro/Dashboard/Workplace',
-              },
-            ],
-          },
-          // forms
-          {
-            path: '/antdpro/form',
-            icon: 'form',
-            name: 'form',
-            routes: [
-              {
-                path: '/antdpro/form/basic-form',
-                name: 'basicform',
-                component: './AntdPro/Forms/BasicForm',
-              },
-              {
-                path: '/antdpro/form/step-form',
-                name: 'stepform',
-                component: './AntdPro/Forms/StepForm',
-                hideChildrenInMenu: true,
-                routes: [
-                  {
-                    path: '/antdpro/form/step-form',
-                    redirect: '/antdpro/form/step-form/info',
-                  },
-                  {
-                    path: '/antdpro/form/step-form/info',
-                    name: 'info',
-                    component: './AntdPro/Forms/StepForm/Step1',
-                  },
-                  {
-                    path: '/antdpro/form/step-form/confirm',
-                    name: 'confirm',
-                    component: './AntdPro/Forms/StepForm/Step2',
-                  },
-                  {
-                    path: '/antdpro/form/step-form/result',
-                    name: 'result',
-                    component: './AntdPro/Forms/StepForm/Step3',
-                  },
-                ],
-              },
-              {
-                path: '/antdpro/form/advanced-form',
-                name: 'advancedform',
-                authority: ['admin'],
-                component: './AntdPro/Forms/AdvancedForm',
-              },
-            ],
-          },
-          // list
-          {
-            path: '/antdpro/list',
-            icon: 'table',
-            name: 'list',
-            routes: [
-              {
-                path: '/antdpro/list/table-list',
-                name: 'searchtable',
-                component: './AntdPro/List/TableList',
-              },
-              {
-                path: '/antdpro/list/basic-list',
-                name: 'basiclist',
-                component: './AntdPro/List/BasicList',
-              },
-              {
-                path: '/antdpro/list/card-list',
-                name: 'cardlist',
-                component: './AntdPro/List/CardList',
-              },
-              {
-                path: '/antdpro/list/search',
-                name: 'searchlist',
-                component: './AntdPro/List/List',
-                routes: [
-                  {
-                    path: '/antdpro/list/search',
-                    redirect: '/antdpro/list/search/articles',
-                  },
-                  {
-                    path: '/antdpro/list/search/articles',
-                    name: 'articles',
-                    component: './AntdPro/List/Articles',
-                  },
-                  {
-                    path: '/antdpro/list/search/projects',
-                    name: 'projects',
-                    component: './AntdPro/List/Projects',
-                  },
-                  {
-                    path: '/antdpro/list/search/applications',
-                    name: 'applications',
-                    component: './AntdPro/List/Applications',
-                  },
-                ],
-              },
-            ],
-          },
-          {
-            path: '/antdpro/profile',
-            name: 'profile',
-            icon: 'profile',
-            routes: [
-              // profile
-              {
-                path: '/antdpro/profile/basic',
-                name: 'basic',
-                component: './AntdPro/Profile/BasicProfile',
-              },
-              {
-                path: '/antdpro/profile/basic/:id',
-                name: 'basic',
-                hideInMenu: true,
-                component: './AntdPro/Profile/BasicProfile',
-              },
-              {
-                path: '/antdpro/profile/advanced',
-                name: 'advanced',
-                component: './AntdPro/Profile/AdvancedProfile',
-              },
-            ],
-          },
-          {
-            name: 'result',
-            icon: 'check-circle-o',
-            path: '/antdpro/result',
-            routes: [
-              // result
-              {
-                path: '/antdpro/result/success',
-                name: 'success',
-                component: './AntdPro/Result/Success',
-              },
-              { path: '/antdpro/result/fail', name: 'fail', component: './AntdPro/Result/Error' },
-            ],
-          },
-          {
-            name: 'exception',
-            icon: 'warning',
-            path: '/antdpro/exception',
-            routes: [
-              // exception
-              {
-                path: '/antdpro/exception/403',
-                name: 'not-permission',
-                component: './AntdPro/Exception/403',
-              },
-              {
-                path: '/antdpro/exception/404',
-                name: 'not-find',
-                component: './AntdPro/Exception/404',
-              },
-              {
-                path: '/antdpro/exception/500',
-                name: 'server-error',
-                component: './AntdPro/Exception/500',
-              },
-              {
-                path: '/antdpro/exception/trigger',
-                name: 'trigger',
-                hideInMenu: true,
-                component: './AntdPro/Exception/TriggerException',
-              },
-            ],
-          },
-          {
-            name: 'account',
-            icon: 'user',
-            path: '/antdpro/account',
-            routes: [
-              {
-                path: '/antdpro/account/center',
-                name: 'center',
-                component: './AntdPro/Account/Center/Center',
-                routes: [
-                  {
-                    path: '/antdpro/account/center',
-                    redirect: '/antdpro/account/center/articles',
-                  },
-                  {
-                    path: '/antdpro/account/center/articles',
-                    component: './AntdPro/Account/Center/Articles',
-                  },
-                  {
-                    path: '/antdpro/account/center/applications',
-                    component: './AntdPro/Account/Center/Applications',
-                  },
-                  {
-                    path: '/antdpro/account/center/projects',
-                    component: './AntdPro/Account/Center/Projects',
-                  },
-                ],
-              },
-              {
-                path: '/antdpro/account/settings',
-                name: 'settings',
-                component: './AntdPro/Account/Settings/Info',
-                routes: [
-                  {
-                    path: '/antdpro/account/settings',
-                    redirect: '/antdpro/account/settings/base',
-                  },
-                  {
-                    path: '/antdpro/account/settings/base',
-                    component: './AntdPro/Account/Settings/BaseView',
-                  },
-                  {
-                    path: '/antdpro/account/settings/security',
-                    component: './AntdPro/Account/Settings/SecurityView',
-                  },
-                  {
-                    path: '/antdpro/account/settings/binding',
-                    component: './AntdPro/Account/Settings/BindingView',
-                  },
-                  {
-                    path: '/antdpro/account/settings/notification',
-                    component: './AntdPro/Account/Settings/NotificationView',
-                  },
-                ],
-              },
-            ],
-          },
-          {
-            component: '404',
-          },
-        ],
-      },
+      }
     ]
   },
 ];
